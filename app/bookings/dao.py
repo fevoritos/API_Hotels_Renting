@@ -4,7 +4,7 @@ from app.database import async_session_maker
 
 from sqlalchemy import insert, select, func, and_, or_
 from app.bookings.models import Bookings
-from app.rooms.models import Rooms
+from app.hotels.rooms.models import Rooms
 
 class BookingDAO(BaseDAO):
     model = Bookings
@@ -32,7 +32,7 @@ class BookingDAO(BaseDAO):
         async with async_session_maker() as session:
             booked_rooms = select(Bookings).where(
                 and_(
-                    Bookings.room_id == 1,
+                    Bookings.room_id == room_id,
                     or_(
                         and_(
                             Bookings.date_from >= date_from,
