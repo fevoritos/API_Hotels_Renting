@@ -2,8 +2,9 @@ from datetime import date
 from app.dao.base import BaseDAO
 from app.database import async_session_maker
 
-from sqlalchemy import insert, select, func, and_, or_
+from sqlalchemy import delete, insert, select, func, and_, or_
 from app.bookings.models import Bookings
+from app.exceptions import CanNotFindBooking
 from app.hotels.rooms.models import Rooms
 
 class BookingDAO(BaseDAO):
@@ -82,3 +83,32 @@ class BookingDAO(BaseDAO):
 
             else:
                 return None
+    
+    @classmethod
+    async def delete(
+        cls,
+        user_id: int,
+        id: int
+    ):
+        async with async_session_maker() as session:
+            find_booking = select(Bookings).where(
+                and_(
+                    Bookings.user_id == user_id,
+                    Bookings.id == id
+                )
+            )
+            find_booking = await session.execute(find_booking)
+            find_booking = find_booking.scalar_one_or_none()
+            if find_booking == None:
+                raise CanNotFindBooking
+
+        async with async_session_maker() as session:
+            delete_booking = delete(Bookings).where(
+                and_(
+                    Bookings.user_id == user_id,
+                    Bookings.id == id
+                )
+            )
+            delete_booking = await session.execute(delete_booking)
+            await session.commit()
+
