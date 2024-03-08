@@ -2,7 +2,7 @@ from datetime import date
 from app.dao.base import BaseDAO
 from app.hotels.rooms.models import Rooms
 from app.bookings.models import Bookings
-from sqlalchemy import delete, insert, select, func, and_, or_, text
+from sqlalchemy import delete, insert, select, func, and_, or_
 from app.database import async_session_maker
 
 
@@ -16,7 +16,7 @@ class RoomDAO(BaseDAO):
         date_from:date, 
         date_to:date
     ):
-               
+        
         async with async_session_maker() as session:
             delta_days = (date_to-date_from).days
 
@@ -27,7 +27,7 @@ class RoomDAO(BaseDAO):
                 )
             ).cte()
 
-            subq = select((Rooms.quantity - func.count(booked_rooms.c.room_id)).label("rooms_left"), Rooms.id
+            subq = select((func.greatest(Rooms.quantity - func.count(booked_rooms.c.room_id), 0)).label("rooms_left"), Rooms.id
                     ).select_from(Rooms).join(
                         booked_rooms, booked_rooms.c.room_id == Rooms.id,  isouter=True
                     ).group_by(
@@ -42,6 +42,6 @@ class RoomDAO(BaseDAO):
                 ).where(
                     Rooms.hotel_id == hotel_id
                 ) 
-                     
+                         
             g_rooms = await session.execute(g_rooms)
             return g_rooms.mappings().all()

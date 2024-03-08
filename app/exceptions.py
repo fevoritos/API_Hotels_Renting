@@ -36,3 +36,7 @@ class RoomCannotBeBooked(BookingException):
 
 class CanNotFindBooking(BookingException):
     status_code=status.HTTP_409_CONFLICT
+
+class CanNotAddBooking(BookingException):
+    status_code=status.HTTP_409_CONFLICT
+    detail="Период задан некорректно"
