@@ -11,7 +11,7 @@ class BookingDAO(BaseDAO):
     model = Bookings
 
     @classmethod
-    async def find_bookings(
+    async def get_bookings(
         cls,
         user_id: int,
     ):

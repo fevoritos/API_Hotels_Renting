@@ -14,7 +14,7 @@ router = APIRouter(
 @router.get("")
 async def get_bookings(user: Users = Depends(get_current_user)
 ):
-    return await BookingDAO.find_bookings(user_id=user.id)
+    return await BookingDAO.get_bookings(user_id=user.id)
 
 
 @router.post("")
