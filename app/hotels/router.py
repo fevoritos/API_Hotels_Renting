@@ -1,5 +1,5 @@
-from datetime import date
-from fastapi import APIRouter
+from datetime import date, datetime, timedelta
+from fastapi import APIRouter, Query
 
 from app.hotels.dao import HotelDAO
 
@@ -11,8 +11,8 @@ router = APIRouter(
 @router.get("/{location}")
 async def get_hotels(
     location:str,
-    date_from:date, 
-    date_to:date,
+    date_from:date = Query(..., description=f"Например, {datetime.now().date()}"), 
+    date_to:date = Query(..., description=f"Например, {datetime.now().date() + timedelta(days=1)}"),
 ):
     return await HotelDAO.get_hotels(
         location=location, 
