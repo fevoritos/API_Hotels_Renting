@@ -10,7 +10,7 @@ router = APIRouter(
 )
 
 @router.get("/{location}")
-@cache(expire=60)
+#@cache(expire=60)
 async def get_hotels(
     location:str,
     date_from:date = Query(..., description=f"Например, {datetime.now().date()}"), 

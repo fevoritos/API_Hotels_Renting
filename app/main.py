@@ -14,10 +14,12 @@ from fastapi_cache.backends.redis import RedisBackend
 from contextlib import asynccontextmanager
 
 from redis import asyncio as aioredis
+from app.config import settings
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    redis = aioredis.from_url("redis://localhost")
+    redis = aioredis.from_url(f"redis://{settings.REDIS_HOST}")
     FastAPICache.init(RedisBackend(redis), prefix="cache")
     yield
 
