@@ -1,16 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Подключение CSS к HTML</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
-</head>
-<body>
-    <h1>Это заголовок первого уровня</h1>
-    Здесь просто текст
-    <h2>Это заголовок второго уровня</h2>
-    Здесь просто текст
+<html>
+  <head>
+    <title> Test </title>
+  </head>
+  <body>
+    <p>Текст перед скриптом ...</p>
+    
+    <script>
+    let n = +prompt();
+    let matrix = [];
+    for (let i = 0; i < n; i++) {
+    matrix[i] = prompt().split(" ").map(el => +el);
+    }
+    console.log(matrix);
+    matrix = matrix.flat();
+    console.log(matrix);
+    let average = matrix.reduce((a, b) => a + b) / matrix.length;
+
+    for (let num of matrix) {
+    num >= average ? console.log(num) : num; 
+}
+    </script>
+    
+    <p>Текст после скрипта ...</p>
   </body>
 </html>

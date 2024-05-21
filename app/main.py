@@ -1,8 +1,12 @@
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
+from sqladmin import Admin, ModelView
+from app.admin.views import BookingsAdmin, UsersAdmin
+from app.database import engine
 
 from app.bookings.router import router as router_bookings
+from app.users.models import Users
 from app.users.router import router as router_users
 from app.hotels.rooms.router import router as router_rooms
 
@@ -47,4 +51,9 @@ app.add_middleware(
     allow_headers=["Content-Type", "Set-Cookie", "Access-Control-Allow-Headers", 
                    "Access-Control-Allow-Origin", "Authorization"],
 )
+
+admin = Admin(app, engine)
+
+admin.add_view(UsersAdmin)
+admin.add_view(BookingsAdmin)
 
