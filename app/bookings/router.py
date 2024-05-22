@@ -37,9 +37,10 @@ async def add_booking(
     if not booking:
         raise RoomCannotBeBooked
     
-    booking_dict =  SBooking.model_validate(booking).model_dump()
-    send_booking_confirmation_email.delay(booking_dict, user.email)
-    return booking_dict
+    # booking_dict = SBooking.model_validate(booking).model_dump()
+    # send_booking_confirmation_email.delay(booking_dict, user.email)
+    # return booking_dict
+    return booking
     
 
 @router.delete("/{booking_id}", status_code=204)

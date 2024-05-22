@@ -6,38 +6,30 @@ from app.users.models import Users
 
 
 class UsersAdmin(ModelView, model=Users):
-    column_list = [Users.id, Users.email]
-    column_details_exclude_list = [Users.hashed_password]
-    can_delete = False
-    name = "User"
-    name_plural = "Users"
-    icon = "fa-solid fa-user"
-
-class BookingsAdmin(ModelView, model=Bookings):
-    column_list = [c.name for c in Bookings.__table__.c] + [Bookings.user]
-    name = "Booking"
-    name_plural = "Bookings"
-
-class UsersAdmin(ModelView, model=Users):
     column_list = [Users.id, Users.email, Users.bookings]
     column_details_exclude_list = [Users.hashed_password]
     can_delete = False
     name = "Пользователь"
     name_plural = "Пользователи"
     icon = "fa-solid fa-user"
+    page_size = 25
 
 class HotelsAdmin(ModelView, model=Hotels):
     column_list = [c.name for c in Hotels.__table__.c] + [Hotels.rooms]
+    can_delete = False
     name = "Отель"
     name_plural = "Отели"
     icon = "fa-solid fa-hotel"
+    page_size = 25
 
 
 class RoomsAdmin(ModelView, model=Rooms):
     column_list = [c.name for c in Rooms.__table__.c] + [Rooms.hotel, Rooms.bookings]
+    can_delete = False
     name = "Номер"
     name_plural = "Номера"
     icon = "fa-solid fa-bed"
+    page_size = 25
 
 
 class BookingsAdmin(ModelView, model=Bookings):
@@ -45,3 +37,4 @@ class BookingsAdmin(ModelView, model=Bookings):
     name = "Бронь"
     name_plural = "Брони"
     icon = "fa-solid fa-book"
+    page_size = 25
